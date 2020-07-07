@@ -3,7 +3,7 @@ package edu.cnm.deepdive.browseimgur.service;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import edu.cnm.deepdive.browseimgur.BuildConfig;
-import edu.cnm.deepdive.browseimgur.model.entity.Gallery;
+import edu.cnm.deepdive.browseimgur.model.Gallery;
 import io.reactivex.Single;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;

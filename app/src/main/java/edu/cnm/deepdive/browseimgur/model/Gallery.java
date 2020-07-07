@@ -1,7 +1,7 @@
-package edu.cnm.deepdive.browseimgur.model.entity;
+package edu.cnm.deepdive.browseimgur.model;
 
 import com.google.gson.annotations.Expose;
-import java.util.Arrays;
+import java.util.List;
 
 public class Gallery {
 
@@ -17,10 +17,10 @@ public class Gallery {
 
   private String link;
 
-  private Tag[] tags;
+  private List<Tag> tags;
 
   @Expose
-  private Image[] images;
+  private List<Image> images;
 
   public String getId() {
     return id;
@@ -54,7 +54,7 @@ public class Gallery {
     this.datetime = datetime;
   }
 
-  public Tag[] getTags() {
+  public List<Tag> getTags() {
     return tags;
   }
 
@@ -66,40 +66,40 @@ public class Gallery {
     this.link = link;
   }
 
-  public void setTags(Tag[] tags) {
+  public void setTags(List<Tag> tags) {
     this.tags = tags;
   }
 
-  public Image[] getImages() {
+  public List<Image> getImages() {
     return images;
   }
 
-  public void setImages(Image[] images) {
+  public void setImages(List<Image> images) {
     this.images = images;
   }
 
   @Override
   public String toString() {
-    return title + description + Arrays.toString(images);
+    return title + description + images.toString();
   }
 
   public static class SearchResult {
 
     @Expose
-    Gallery[] data;
+    private List<Gallery> data;
 
-    public Gallery[] getData() {
+    public List<Gallery> getData() {
       return data;
     }
 
-    public void setData(Gallery[] data) {
+    public void setData(List<Gallery> data) {
       this.data = data;
     }
 
     @Override
     public String toString() {
       return "SearchResult{" +
-          "data=" + Arrays.toString(getData());
+          "data=" + data.toString();
     }
   }
 

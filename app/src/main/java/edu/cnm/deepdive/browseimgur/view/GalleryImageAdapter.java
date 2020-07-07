@@ -11,13 +11,13 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import com.squareup.picasso.Picasso;
 import edu.cnm.deepdive.browseimgur.R;
-import edu.cnm.deepdive.browseimgur.model.entity.Image;
+import edu.cnm.deepdive.browseimgur.model.Image;
+import java.util.List;
 
 public class GalleryImageAdapter extends ArrayAdapter<Image> {
 
-  public GalleryImageAdapter(@NonNull Context context,
-      Image[] imageItemArray) {
-    super(context, 0, imageItemArray);
+  public GalleryImageAdapter(@NonNull Context context, List<Image> imageItemArray) {
+    super(context, R.layout.custom_gallery_search_spinner_item, imageItemArray);
   }
 
   @NonNull
