@@ -12,7 +12,8 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 import edu.cnm.deepdive.browseimgur.R;
-import edu.cnm.deepdive.browseimgur.model.entity.Gallery;
+import edu.cnm.deepdive.browseimgur.model.Gallery;
+import edu.cnm.deepdive.browseimgur.model.Image;
 import edu.cnm.deepdive.browseimgur.view.GalleryListAdapter;
 import edu.cnm.deepdive.browseimgur.viewmodel.ListViewModel;
 
@@ -40,12 +41,10 @@ public class GallerySearchFragment extends Fragment implements
     super.onViewCreated(view, savedInstanceState);
     viewModel = new ViewModelProvider(getActivity())
         .get(ListViewModel.class);
-    viewModel.getSearchResult().observe(getViewLifecycleOwner(), searchResult -> {
-      if (searchResult != null) {
+    viewModel.getGalleries().observe(getViewLifecycleOwner(), (galleries) -> {
+      if (galleries != null) {
         galleryArray.setVisibility(View.VISIBLE);
-        galleryArray.setAdapter(new GalleryListAdapter(getContext(), searchResult.getData(),
-            this::onSelected));
-
+        galleryArray.setAdapter(new GalleryListAdapter(getContext(), galleries, this));
       }
     });
     viewModel.getLoading().observe(getViewLifecycleOwner(), loading -> {
@@ -64,12 +63,9 @@ public class GallerySearchFragment extends Fragment implements
   }
 
   @Override
-  public void onSelected(int index, Gallery gallery) {
-    imageDialogDetail(gallery);
-  }
-
-  private void imageDialogDetail(Gallery gallery) {
+  public void onSelected(Gallery gallery, Image image) {
     ImageDetailDialogFragment fragment = ImageDetailDialogFragment.newInstance();
     fragment.show(getChildFragmentManager(), fragment.getClass().getName());
   }
+
 }

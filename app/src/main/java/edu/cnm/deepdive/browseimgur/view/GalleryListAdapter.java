@@ -11,17 +11,18 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import edu.cnm.deepdive.browseimgur.R;
-import edu.cnm.deepdive.browseimgur.model.entity.Gallery;
+import edu.cnm.deepdive.browseimgur.model.Gallery;
+import edu.cnm.deepdive.browseimgur.model.Image;
+import java.util.List;
 
 public class GalleryListAdapter extends
-    RecyclerView.Adapter<GalleryListAdapter.GalleryViewHolder> implements
-    OnItemSelectedListener {
+    RecyclerView.Adapter<GalleryListAdapter.GalleryViewHolder> {
 
   private final Context context;
-  private final Gallery[] galleries;
+  private final List<Gallery> galleries;
   private final OnItemSelectedHelper onItemSelectedHelper;
 
-  public GalleryListAdapter(Context context, Gallery[] galleries,
+  public GalleryListAdapter(Context context, List<Gallery> galleries,
       OnItemSelectedHelper onItemSelectedHelper) {
     super();
     this.context = context;
@@ -43,44 +44,52 @@ public class GalleryListAdapter extends
 
   @Override
   public int getItemCount() {
-    return galleries.length;
+    return galleries.size();
   }
 
-  @Override
-  public void onItemSelected(AdapterView<?> adapterView, View view, int pos, long l) {
-    onItemSelectedHelper.onSelected(pos, galleries[pos]);
-  }
-
-  @Override
-  public void onNothingSelected(AdapterView<?> adapterView) {
-  }
-
-  class GalleryViewHolder extends RecyclerView.ViewHolder {
+  class GalleryViewHolder extends RecyclerView.ViewHolder implements OnItemSelectedListener {
 
     private final TextView title;
     private final TextView description;
-    public final Spinner imageSpinner;
+    private final Spinner imageSpinner;
+
+    private Gallery gallery;
+    private boolean handleSelection;
 
     public GalleryViewHolder(@NonNull View itemView) {
       super(itemView);
       title = itemView.findViewById(R.id.title);
       description = itemView.findViewById(R.id.description);
       imageSpinner = itemView.findViewById(R.id.gallery_search_spinner);
-      imageSpinner.setOnItemSelectedListener(GalleryListAdapter.this);
     }
 
     private void bind(int position) {
-      title.setText(galleries[position].getTitle());
-      description.setText(galleries[position].getDescription());
-      GalleryImageAdapter galleryImageAdapter = new GalleryImageAdapter(context,
-          galleries[position].getImages());
+      gallery = galleries.get(position);
+      title.setText(gallery.getTitle());
+      description.setText(gallery.getDescription());
+      GalleryImageAdapter galleryImageAdapter = new GalleryImageAdapter(context, gallery.getImages());
       imageSpinner.setAdapter(galleryImageAdapter);
+      handleSelection = false;
+      imageSpinner.setOnItemSelectedListener(this);
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+      if (handleSelection) {
+        onItemSelectedHelper.onSelected(gallery, gallery.getImages().get(position));
+      } else {
+        handleSelection = true;
+      }
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+
     }
   }
 
   public interface OnItemSelectedHelper {
-    void onSelected(int pos, Gallery gallery);
+    void onSelected(Gallery gallery, Image image);
   }
-
 
 }

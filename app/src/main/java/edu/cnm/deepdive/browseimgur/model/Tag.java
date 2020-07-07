@@ -1,4 +1,4 @@
-package edu.cnm.deepdive.browseimgur.model.entity;
+package edu.cnm.deepdive.browseimgur.model;
 
 import com.google.gson.annotations.Expose;
 
