@@ -15,12 +15,12 @@ import java.util.List;
 
 public class ListViewModel extends AndroidViewModel {
 
-  private MutableLiveData<List<Gallery>> galleries;
-  private MutableLiveData<Boolean> loadError = new MutableLiveData<Boolean>();
-  private MutableLiveData<Boolean> loading = new MutableLiveData<Boolean>();
-  private MutableLiveData<Throwable> throwable;
-  private CompositeDisposable pending;
-  ImgurService imgurService;
+  private final MutableLiveData<List<Gallery>> galleries;
+  private final MutableLiveData<Boolean> loadError;
+  private final MutableLiveData<Boolean> loading;
+  private final MutableLiveData<Throwable> throwable;
+  private final CompositeDisposable pending;
+  private final ImgurService imgurService;
 
   public ListViewModel(@NonNull Application application) {
     super(application);
