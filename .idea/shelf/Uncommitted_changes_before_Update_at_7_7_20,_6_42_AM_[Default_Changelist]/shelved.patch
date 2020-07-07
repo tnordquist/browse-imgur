@@ -1,0 +1,530 @@
+Index: app/src/main/java/edu/cnm/deepdive/browseimgur/controller/GallerySearchFragment.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package edu.cnm.deepdive.browseimgur.controller;\n\nimport android.os.Bundle;\nimport android.view.LayoutInflater;\nimport android.view.View;\nimport android.view.ViewGroup;\nimport android.widget.ProgressBar;\nimport android.widget.TextView;\nimport androidx.annotation.NonNull;\nimport androidx.annotation.Nullable;\nimport androidx.fragment.app.Fragment;\nimport androidx.lifecycle.ViewModelProvider;\nimport androidx.recyclerview.widget.RecyclerView;\nimport edu.cnm.deepdive.browseimgur.R;\nimport edu.cnm.deepdive.browseimgur.model.entity.Gallery;\nimport edu.cnm.deepdive.browseimgur.view.GalleryListAdapter;\nimport edu.cnm.deepdive.browseimgur.viewmodel.ListViewModel;\n\npublic class GallerySearchFragment extends Fragment implements\n    GalleryListAdapter.OnItemSelectedHelper {\n\n  private ListViewModel viewModel;\n  private GalleryListAdapter galleryListAdapter;\n  private ProgressBar loadingView;\n  private TextView listError;\n  private RecyclerView galleryArray;\n\n  private Gallery[] galleries;\n\n  @Override\n  public View onCreateView(LayoutInflater inflater, ViewGroup container,\n      Bundle savedInstanceState) {\n    View view = inflater.inflate(R.layout.gallery_list, container, false);\n    galleryArray = view.findViewById(R.id.recycler_view);\n    return view;\n  }\n\n  @Override\n  public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {\n    super.onViewCreated(view, savedInstanceState);\n    viewModel = new ViewModelProvider(getActivity())\n        .get(ListViewModel.class);\n    viewModel.getSearchResult().observe(getViewLifecycleOwner(), searchResult -> {\n      if (searchResult != null) {\n        galleryArray.setVisibility(View.VISIBLE);\n        galleryArray.setAdapter(new GalleryListAdapter(getContext(), searchResult.getData(),\n            this::onSelected));\n\n      }\n    });\n    viewModel.getLoading().observe(getViewLifecycleOwner(), loading -> {\n      loadingView.setVisibility(loading ? View.VISIBLE : View.GONE);\n      if (loading) {\n        listError.setVisibility(View.GONE);\n        galleryArray.setVisibility(View.GONE);\n      }\n    });\n\n    viewModel.getError().observe(getViewLifecycleOwner(), error -> {\n      listError.setVisibility(error ? View.VISIBLE : View.GONE);\n    });\n\n\n  }\n\n  @Override\n  public void onSelected(int index, Gallery gallery) {\n    imageDialogDetail(gallery);\n  }\n\n  private void imageDialogDetail(Gallery gallery) {\n    ImageDetailDialogFragment fragment = ImageDetailDialogFragment.newInstance();\n    fragment.show(getChildFragmentManager(), fragment.getClass().getName());\n  }\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/edu/cnm/deepdive/browseimgur/controller/GallerySearchFragment.java	(revision dbb7af89ef7eba777517f6ffe8c8fe851b075ccb)
++++ app/src/main/java/edu/cnm/deepdive/browseimgur/controller/GallerySearchFragment.java	(date 1594125361074)
+@@ -12,7 +12,7 @@
+ import androidx.lifecycle.ViewModelProvider;
+ import androidx.recyclerview.widget.RecyclerView;
+ import edu.cnm.deepdive.browseimgur.R;
+-import edu.cnm.deepdive.browseimgur.model.entity.Gallery;
++import edu.cnm.deepdive.browseimgur.model.Gallery;
+ import edu.cnm.deepdive.browseimgur.view.GalleryListAdapter;
+ import edu.cnm.deepdive.browseimgur.viewmodel.ListViewModel;
+ 
+Index: app/src/main/java/edu/cnm/deepdive/browseimgur/view/GalleryListAdapter.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package edu.cnm.deepdive.browseimgur.view;\n\nimport android.content.Context;\nimport android.view.LayoutInflater;\nimport android.view.View;\nimport android.view.ViewGroup;\nimport android.widget.AdapterView;\nimport android.widget.AdapterView.OnItemSelectedListener;\nimport android.widget.Spinner;\nimport android.widget.TextView;\nimport androidx.annotation.NonNull;\nimport androidx.recyclerview.widget.RecyclerView;\nimport edu.cnm.deepdive.browseimgur.R;\nimport edu.cnm.deepdive.browseimgur.model.entity.Gallery;\n\npublic class GalleryListAdapter extends\n    RecyclerView.Adapter<GalleryListAdapter.GalleryViewHolder> implements\n    OnItemSelectedListener {\n\n  private final Context context;\n  private final Gallery[] galleries;\n  private final OnItemSelectedHelper onItemSelectedHelper;\n\n  public GalleryListAdapter(Context context, Gallery[] galleries,\n      OnItemSelectedHelper onItemSelectedHelper) {\n    super();\n    this.context = context;\n    this.galleries = galleries;\n    this.onItemSelectedHelper = onItemSelectedHelper;\n  }\n\n  @NonNull\n  @Override\n  public GalleryViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {\n    View view = LayoutInflater.from(context).inflate(R.layout.item_gallery_search, parent, false);\n    return new GalleryViewHolder(view);\n  }\n\n  @Override\n  public void onBindViewHolder(@NonNull GalleryViewHolder holder, int position) {\n    holder.bind(position);\n  }\n\n  @Override\n  public int getItemCount() {\n    return galleries.length;\n  }\n\n  @Override\n  public void onItemSelected(AdapterView<?> adapterView, View view, int pos, long l) {\n    onItemSelectedHelper.onSelected(pos, galleries[pos]);\n  }\n\n  @Override\n  public void onNothingSelected(AdapterView<?> adapterView) {\n  }\n\n  class GalleryViewHolder extends RecyclerView.ViewHolder {\n\n    private final TextView title;\n    private final TextView description;\n    public final Spinner imageSpinner;\n\n    public GalleryViewHolder(@NonNull View itemView) {\n      super(itemView);\n      title = itemView.findViewById(R.id.title);\n      description = itemView.findViewById(R.id.description);\n      imageSpinner = itemView.findViewById(R.id.gallery_search_spinner);\n      imageSpinner.setOnItemSelectedListener(GalleryListAdapter.this);\n    }\n\n    private void bind(int position) {\n      title.setText(galleries[position].getTitle());\n      description.setText(galleries[position].getDescription());\n      GalleryImageAdapter galleryImageAdapter = new GalleryImageAdapter(context,\n          galleries[position].getImages());\n      imageSpinner.setAdapter(galleryImageAdapter);\n    }\n  }\n\n  public interface OnItemSelectedHelper {\n    void onSelected(int pos, Gallery gallery);\n  }\n\n\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/edu/cnm/deepdive/browseimgur/view/GalleryListAdapter.java	(revision dbb7af89ef7eba777517f6ffe8c8fe851b075ccb)
++++ app/src/main/java/edu/cnm/deepdive/browseimgur/view/GalleryListAdapter.java	(date 1594125361060)
+@@ -11,7 +11,7 @@
+ import androidx.annotation.NonNull;
+ import androidx.recyclerview.widget.RecyclerView;
+ import edu.cnm.deepdive.browseimgur.R;
+-import edu.cnm.deepdive.browseimgur.model.entity.Gallery;
++import edu.cnm.deepdive.browseimgur.model.Gallery;
+ 
+ public class GalleryListAdapter extends
+     RecyclerView.Adapter<GalleryListAdapter.GalleryViewHolder> implements
+Index: app/src/main/java/edu/cnm/deepdive/browseimgur/model/entity/Tag.java
+===================================================================
+--- app/src/main/java/edu/cnm/deepdive/browseimgur/model/entity/Tag.java	(revision dbb7af89ef7eba777517f6ffe8c8fe851b075ccb)
++++ app/src/main/java/edu/cnm/deepdive/browseimgur/model/entity/Tag.java	(revision dbb7af89ef7eba777517f6ffe8c8fe851b075ccb)
+@@ -1,28 +0,0 @@
+-package edu.cnm.deepdive.browseimgur.model.entity;
+-
+-import com.google.gson.annotations.Expose;
+-
+-public class Tag {
+-
+-  @Expose
+-  private String name;
+-
+-  @Expose
+-  private String description;
+-
+-  public String getName() {
+-    return name;
+-  }
+-
+-  public void setName(String name) {
+-    this.name = name;
+-  }
+-
+-  public String getDescription() {
+-    return description;
+-  }
+-
+-  public void setDescription(String description) {
+-    this.description = description;
+-  }
+-}
+Index: app/src/main/java/edu/cnm/deepdive/browseimgur/model/entity/Album.java
+===================================================================
+--- app/src/main/java/edu/cnm/deepdive/browseimgur/model/entity/Album.java	(revision dbb7af89ef7eba777517f6ffe8c8fe851b075ccb)
++++ app/src/main/java/edu/cnm/deepdive/browseimgur/model/entity/Album.java	(revision dbb7af89ef7eba777517f6ffe8c8fe851b075ccb)
+@@ -1,127 +0,0 @@
+-package edu.cnm.deepdive.browseimgur.model.entity;
+-
+-import com.google.gson.annotations.Expose;
+-
+-public class Album {
+-
+-  @Expose
+-  private String id;
+-
+-  @Expose
+-  private String title;
+-
+-  @Expose
+-  private String description;
+-
+-  @Expose
+-  private int datetime;
+-
+-  @Expose
+-  private String account_url; // nullable
+-
+-  @Expose
+-  private int views;
+-
+-  @Expose
+-  private String link;
+-
+-  @Expose
+-  private String deletehash;
+-
+-  @Expose
+-  private int images_count;
+-
+-  @Expose
+-  private Image[] images;
+-
+-  @Expose
+-  private boolean in_gallery;
+-
+-  public String getId() {
+-    return id;
+-  }
+-
+-  public void setId(String id) {
+-    this.id = id;
+-  }
+-
+-  public String getTitle() {
+-    return title;
+-  }
+-
+-  public void setTitle(String title) {
+-    this.title = title;
+-  }
+-
+-  public String getDescription() {
+-    return description;
+-  }
+-
+-  public void setDescription(String description) {
+-    this.description = description;
+-  }
+-
+-  public int getDatetime() {
+-    return datetime;
+-  }
+-
+-  public void setDatetime(int datetime) {
+-    this.datetime = datetime;
+-  }
+-
+-  public String getAccount_url() {
+-    return account_url;
+-  }
+-
+-  public void setAccount_url(String account_url) {
+-    this.account_url = account_url;
+-  }
+-
+-  public int getViews() {
+-    return views;
+-  }
+-
+-  public void setViews(int views) {
+-    this.views = views;
+-  }
+-
+-  public String getLink() {
+-    return link;
+-  }
+-
+-  public void setLink(String link) {
+-    this.link = link;
+-  }
+-
+-  public String getDeletehash() {
+-    return deletehash;
+-  }
+-
+-  public void setDeletehash(String deletehash) {
+-    this.deletehash = deletehash;
+-  }
+-
+-  public int getImages_count() {
+-    return images_count;
+-  }
+-
+-  public void setImages_count(int images_count) {
+-    this.images_count = images_count;
+-  }
+-
+-  public Image[] getImages() {
+-    return images;
+-  }
+-
+-  public void setImages(Image[] images) {
+-    this.images = images;
+-  }
+-
+-  public boolean isIn_gallery() {
+-    return in_gallery;
+-  }
+-
+-  public void setIn_gallery(boolean in_gallery) {
+-    this.in_gallery = in_gallery;
+-  }
+-}
+Index: app/src/main/java/edu/cnm/deepdive/browseimgur/model/entity/Gallery.java
+===================================================================
+--- app/src/main/java/edu/cnm/deepdive/browseimgur/model/entity/Gallery.java	(revision dbb7af89ef7eba777517f6ffe8c8fe851b075ccb)
++++ app/src/main/java/edu/cnm/deepdive/browseimgur/model/entity/Gallery.java	(revision dbb7af89ef7eba777517f6ffe8c8fe851b075ccb)
+@@ -1,107 +0,0 @@
+-package edu.cnm.deepdive.browseimgur.model.entity;
+-
+-import com.google.gson.annotations.Expose;
+-import java.util.Arrays;
+-
+-public class Gallery {
+-
+-  private String id;
+-
+-  @Expose
+-  private String title;
+-
+-  @Expose
+-  private String description;
+-
+-  private long datetime;
+-
+-  private String link;
+-
+-  private Tag[] tags;
+-
+-  @Expose
+-  private Image[] images;
+-
+-  public String getId() {
+-    return id;
+-  }
+-
+-  public void setId(String id) {
+-    this.id = id;
+-  }
+-
+-  public String getTitle() {
+-    return title;
+-  }
+-
+-  public void setTitle(String title) {
+-    this.title = title;
+-  }
+-
+-  public String getDescription() {
+-    return description;
+-  }
+-
+-  public void setDescription(String description) {
+-    this.description = description;
+-  }
+-
+-  public long getDatetime() {
+-    return datetime;
+-  }
+-
+-  public void setDatetime(long datetime) {
+-    this.datetime = datetime;
+-  }
+-
+-  public Tag[] getTags() {
+-    return tags;
+-  }
+-
+-  public String getLink() {
+-    return link;
+-  }
+-
+-  public void setLink(String link) {
+-    this.link = link;
+-  }
+-
+-  public void setTags(Tag[] tags) {
+-    this.tags = tags;
+-  }
+-
+-  public Image[] getImages() {
+-    return images;
+-  }
+-
+-  public void setImages(Image[] images) {
+-    this.images = images;
+-  }
+-
+-  @Override
+-  public String toString() {
+-    return title + description + Arrays.toString(images);
+-  }
+-
+-  public static class SearchResult {
+-
+-    @Expose
+-    Gallery[] data;
+-
+-    public Gallery[] getData() {
+-      return data;
+-    }
+-
+-    public void setData(Gallery[] data) {
+-      this.data = data;
+-    }
+-
+-    @Override
+-    public String toString() {
+-      return "SearchResult{" +
+-          "data=" + Arrays.toString(getData());
+-    }
+-  }
+-
+-
+-}
+Index: app/src/main/java/edu/cnm/deepdive/browseimgur/model/entity/Image.java
+===================================================================
+--- app/src/main/java/edu/cnm/deepdive/browseimgur/model/entity/Image.java	(revision dbb7af89ef7eba777517f6ffe8c8fe851b075ccb)
++++ app/src/main/java/edu/cnm/deepdive/browseimgur/model/entity/Image.java	(revision dbb7af89ef7eba777517f6ffe8c8fe851b075ccb)
+@@ -1,139 +0,0 @@
+-package edu.cnm.deepdive.browseimgur.model.entity;
+-
+-import com.google.gson.annotations.Expose;
+-import com.google.gson.annotations.SerializedName;
+-
+-import java.util.Date;
+-
+-public class Image {
+-
+-  @Expose
+-  @SerializedName("id")
+-  private String imageId;
+-
+-  @Expose
+-  private String title;
+-
+-  @Expose
+-  private String description;
+-
+-  @SerializedName("datetime")
+-  private Date imageDateTime;
+-
+-  @Expose
+-  @SerializedName("link")
+-  private String url;
+-
+-  private boolean animated;
+-
+-  private int width;
+-
+-  private int height;
+-
+-  private int size;
+-
+-  private int views;
+-
+-  private long bandwidth;
+-
+-  public String getImageId() {
+-    return imageId;
+-  }
+-
+-  public void setImageId(String imageId) {
+-    this.imageId = imageId;
+-  }
+-
+-  public String getTitle() {
+-    return title;
+-  }
+-
+-  public void setTitle(String title) {
+-    this.title = title;
+-  }
+-
+-  public String getDescription() {
+-    return description;
+-  }
+-
+-  public void setDescription(String description) {
+-    this.description = description;
+-  }
+-
+-  public Date getImageDateTime() {
+-    return imageDateTime;
+-  }
+-
+-  public void setImageDateTime(Date imageDateTime) {
+-    this.imageDateTime = imageDateTime;
+-  }
+-
+-  public String getUrl() {
+-    return url;
+-  }
+-
+-  public void setUrl(String url) {
+-    this.url = url;
+-  }
+-
+-  public boolean isAnimated() {
+-    return animated;
+-  }
+-
+-  public void setAnimated(boolean animated) {
+-    this.animated = animated;
+-  }
+-
+-  public int getWidth() {
+-    return width;
+-  }
+-
+-  public void setWidth(int width) {
+-    this.width = width;
+-  }
+-
+-  public int getHeight() {
+-    return height;
+-  }
+-
+-  public void setHeight(int height) {
+-    this.height = height;
+-  }
+-
+-  public int getSize() {
+-    return size;
+-  }
+-
+-  public void setSize(int size) {
+-    this.size = size;
+-  }
+-
+-  public int getViews() {
+-    return views;
+-  }
+-
+-  public void setViews(int views) {
+-    this.views = views;
+-  }
+-
+-  public long getBandwidth() {
+-    return bandwidth;
+-  }
+-
+-  public void setBandwidth(long bandwidth) {
+-    this.bandwidth = bandwidth;
+-  }
+-
+-  @Override
+-  public String toString() {
+-    String alt = "Title";
+-    String altDes = "Filler Description Items";
+-    if (title == null) {
+-      title = alt;
+-    }
+-    if (description == null) {
+-      description = altDes;
+-    }
+-    return title + "" + description + "" + url;
+-  }
+-}
+Index: app/src/main/java/edu/cnm/deepdive/browseimgur/service/ImgurService.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package edu.cnm.deepdive.browseimgur.service;\n\nimport com.google.gson.Gson;\nimport com.google.gson.GsonBuilder;\nimport edu.cnm.deepdive.browseimgur.BuildConfig;\nimport edu.cnm.deepdive.browseimgur.model.entity.Gallery;\nimport io.reactivex.Single;\nimport okhttp3.OkHttpClient;\nimport okhttp3.logging.HttpLoggingInterceptor;\nimport retrofit2.Retrofit;\nimport retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;\nimport retrofit2.converter.gson.GsonConverterFactory;\nimport retrofit2.http.GET;\nimport retrofit2.http.Header;\nimport retrofit2.http.Query;\n\npublic interface ImgurService {\n  @GET(\"gallery/search\")\n  Single<Gallery.SearchResult> getSearchResult(\n      @Header(\"Authorization\") String authHeader, @Query(\"q\") String subject);\n\n  static ImgurService getInstance() {\n    return InstanceHolder.INSTANCE;\n  }\n\n\n  class InstanceHolder {\n\n    private static final ImgurService INSTANCE;\n\n    static {\n      Gson gson = new GsonBuilder()\n          .excludeFieldsWithoutExposeAnnotation()\n          .create();\n      HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();\n      interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);\n      OkHttpClient client = new OkHttpClient.Builder()\n          .addInterceptor(interceptor)\n          .build();\n      Retrofit retrofit = new Retrofit.Builder()\n          .addConverterFactory(GsonConverterFactory.create(gson))\n          .addCallAdapterFactory(RxJava2CallAdapterFactory.create())\n          .client(client)\n          .baseUrl(BuildConfig.BASE_URL)\n          .build();\n      INSTANCE = retrofit.create(ImgurService.class);\n    }\n\n  }\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/edu/cnm/deepdive/browseimgur/service/ImgurService.java	(revision dbb7af89ef7eba777517f6ffe8c8fe851b075ccb)
++++ app/src/main/java/edu/cnm/deepdive/browseimgur/service/ImgurService.java	(date 1594125361056)
+@@ -3,7 +3,7 @@
+ import com.google.gson.Gson;
+ import com.google.gson.GsonBuilder;
+ import edu.cnm.deepdive.browseimgur.BuildConfig;
+-import edu.cnm.deepdive.browseimgur.model.entity.Gallery;
++import edu.cnm.deepdive.browseimgur.model.Gallery;
+ import io.reactivex.Single;
+ import okhttp3.OkHttpClient;
+ import okhttp3.logging.HttpLoggingInterceptor;
+Index: app/src/main/java/edu/cnm/deepdive/browseimgur/viewmodel/ListViewModel.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package edu.cnm.deepdive.browseimgur.viewmodel;\n\nimport android.annotation.SuppressLint;\nimport android.app.Application;\nimport androidx.annotation.NonNull;\nimport androidx.lifecycle.AndroidViewModel;\nimport androidx.lifecycle.LiveData;\nimport androidx.lifecycle.MutableLiveData;\nimport edu.cnm.deepdive.browseimgur.BuildConfig;\nimport edu.cnm.deepdive.browseimgur.model.entity.Gallery;\nimport edu.cnm.deepdive.browseimgur.service.ImgurService;\nimport io.reactivex.disposables.CompositeDisposable;\nimport io.reactivex.schedulers.Schedulers;\n\npublic class ListViewModel extends AndroidViewModel {\n\n  private MutableLiveData<Gallery.SearchResult> searchResult;\n  private MutableLiveData<Boolean> loadError = new MutableLiveData<Boolean>();\n  private MutableLiveData<Boolean> loading = new MutableLiveData<Boolean>();\n  private MutableLiveData<Throwable> throwable;\n  private CompositeDisposable pending;\n  ImgurService imgurService;\n\n  public ListViewModel(@NonNull Application application) {\n    super(application);\n    imgurService = ImgurService.getInstance();\n    searchResult = new MutableLiveData<Gallery.SearchResult>();\n    throwable = new MutableLiveData<Throwable>();\n    loadError = new MutableLiveData<Boolean>();\n    loading = new MutableLiveData<Boolean>();\n    pending = new CompositeDisposable();\n    loadData();\n  }\n\n  public LiveData<Gallery.SearchResult> getSearchResult() {\n    return searchResult;\n  }\n\n  public LiveData<Boolean> getLoading() {\n    return loading;\n  }\n\n  public LiveData<Boolean> getError() {\n    return loadError;\n  }\n\n  public MutableLiveData<Throwable> getThrowable() {\n    return throwable;\n  }\n\n\n  @SuppressLint(\"CheckResult\")\n  public void loadData() {\n    pending.add(\n        imgurService.getSearchResult(BuildConfig.CLIENT_ID,\n            \"fish AND sharks\")\n            .subscribeOn(Schedulers.io())\n            .subscribe(\n                searchResult -> this.searchResult.postValue(searchResult),\n                throwable -> this.throwable.postValue(throwable.getCause())\n            )\n    );\n  }\n\n  @Override\n  protected void onCleared() {\n    super.onCleared();\n    pending.clear();\n  }\n\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/edu/cnm/deepdive/browseimgur/viewmodel/ListViewModel.java	(revision dbb7af89ef7eba777517f6ffe8c8fe851b075ccb)
++++ app/src/main/java/edu/cnm/deepdive/browseimgur/viewmodel/ListViewModel.java	(date 1594125361064)
+@@ -7,7 +7,7 @@
+ import androidx.lifecycle.LiveData;
+ import androidx.lifecycle.MutableLiveData;
+ import edu.cnm.deepdive.browseimgur.BuildConfig;
+-import edu.cnm.deepdive.browseimgur.model.entity.Gallery;
++import edu.cnm.deepdive.browseimgur.model.Gallery;
+ import edu.cnm.deepdive.browseimgur.service.ImgurService;
+ import io.reactivex.disposables.CompositeDisposable;
+ import io.reactivex.schedulers.Schedulers;
+Index: .idea/misc.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<project version=\"4\">\n  <component name=\"FrameworkDetectionExcludesConfiguration\">\n    <file type=\"web\" url=\"file://$PROJECT_DIR$\" />\n  </component>\n  <component name=\"ProjectRootManager\" version=\"2\" languageLevel=\"JDK_1_8\" default=\"false\" project-jdk-name=\"1.8\" project-jdk-type=\"JavaSDK\">\n    <output url=\"file://$PROJECT_DIR$/build/classes\" />\n  </component>\n  <component name=\"ProjectType\">\n    <option name=\"id\" value=\"Android\" />\n  </component>\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- .idea/misc.xml	(revision dbb7af89ef7eba777517f6ffe8c8fe851b075ccb)
++++ .idea/misc.xml	(date 1594125745983)
+@@ -3,6 +3,9 @@
+   <component name="FrameworkDetectionExcludesConfiguration">
+     <file type="web" url="file://$PROJECT_DIR$" />
+   </component>
++  <component name="JavaScriptSettings">
++    <option name="languageLevel" value="ES6" />
++  </component>
+   <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" default="false" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+     <output url="file://$PROJECT_DIR$/build/classes" />
+   </component>
+Index: app/src/main/java/edu/cnm/deepdive/browseimgur/view/GalleryImageAdapter.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package edu.cnm.deepdive.browseimgur.view;\n\nimport android.content.Context;\nimport android.view.LayoutInflater;\nimport android.view.View;\nimport android.view.ViewGroup;\nimport android.widget.ArrayAdapter;\nimport android.widget.ImageView;\nimport android.widget.TextView;\nimport androidx.annotation.NonNull;\nimport androidx.annotation.Nullable;\nimport com.squareup.picasso.Picasso;\nimport edu.cnm.deepdive.browseimgur.R;\nimport edu.cnm.deepdive.browseimgur.model.entity.Image;\n\npublic class GalleryImageAdapter extends ArrayAdapter<Image> {\n\n  public GalleryImageAdapter(@NonNull Context context,\n      Image[] imageItemArray) {\n    super(context, 0, imageItemArray);\n  }\n\n  @NonNull\n  @Override\n  public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {\n    return initView(position, convertView, parent);\n  }\n\n  @Nullable\n  @Override\n  public View getDropDownView(int position, @Nullable View convertView,\n      @NonNull ViewGroup parent) {\n    return initView(position, convertView, parent);\n  }\n\n  private View initView(int position, View convertview, ViewGroup parent) {\n    if (convertview == null) {\n      convertview = LayoutInflater.from(getContext()).inflate(\n          R.layout.custom_gallery_search_spinner_item, parent, false\n      );\n    }\n    ImageView imageView = convertview.findViewById(R.id.image_gallery_search);\n    TextView titleView = convertview.findViewById(R.id.title);\n    TextView descriptionView = convertview.findViewById(R.id.description);\n    TextView urlView = convertview.findViewById(R.id.url);\n\n    Image currentItem = getItem(position);\n\n    if (currentItem != null) {\n      Picasso.get().load(currentItem.getUrl()).into(imageView);\n      titleView.setText(currentItem.getTitle());\n      descriptionView.setText(currentItem.getDescription());\n      urlView.setText(currentItem.getUrl());\n    }\n\n    return convertview;\n  }\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/edu/cnm/deepdive/browseimgur/view/GalleryImageAdapter.java	(revision dbb7af89ef7eba777517f6ffe8c8fe851b075ccb)
++++ app/src/main/java/edu/cnm/deepdive/browseimgur/view/GalleryImageAdapter.java	(date 1594125361068)
+@@ -11,7 +11,7 @@
+ import androidx.annotation.Nullable;
+ import com.squareup.picasso.Picasso;
+ import edu.cnm.deepdive.browseimgur.R;
+-import edu.cnm.deepdive.browseimgur.model.entity.Image;
++import edu.cnm.deepdive.browseimgur.model.Image;
+ 
+ public class GalleryImageAdapter extends ArrayAdapter<Image> {
+ 
