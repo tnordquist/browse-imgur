@@ -1,6 +1,8 @@
-package edu.cnm.deepdive.browseimgur.model.entity;
+package edu.cnm.deepdive.browseimgur.model;
 
 import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+import java.util.List;
 
 public class Album {
 
@@ -17,7 +19,8 @@ public class Album {
   private int datetime;
 
   @Expose
-  private String account_url; // nullable
+  @SerializedName("account_url")
+  private String accountUrl; // nullable
 
   @Expose
   private int views;
@@ -32,10 +35,11 @@ public class Album {
   private int images_count;
 
   @Expose
-  private Image[] images;
+  private List<Image> images;
 
   @Expose
-  private boolean in_gallery;
+  @SerializedName("in_gallery")
+  private boolean inGallery;
 
   public String getId() {
     return id;
@@ -69,12 +73,12 @@ public class Album {
     this.datetime = datetime;
   }
 
-  public String getAccount_url() {
-    return account_url;
+  public String getAccountUrl() {
+    return accountUrl;
   }
 
-  public void setAccount_url(String account_url) {
-    this.account_url = account_url;
+  public void setAccountUrl(String accountUrl) {
+    this.accountUrl = accountUrl;
   }
 
   public int getViews() {
@@ -109,19 +113,19 @@ public class Album {
     this.images_count = images_count;
   }
 
-  public Image[] getImages() {
+  public List<Image> getImages() {
     return images;
   }
 
-  public void setImages(Image[] images) {
+  public void setImages(List<Image> images) {
     this.images = images;
   }
 
-  public boolean isIn_gallery() {
-    return in_gallery;
+  public boolean isInGallery() {
+    return inGallery;
   }
 
-  public void setIn_gallery(boolean in_gallery) {
-    this.in_gallery = in_gallery;
+  public void setInGallery(boolean inGallery) {
+    this.inGallery = inGallery;
   }
 }
