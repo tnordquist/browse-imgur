@@ -3,9 +3,19 @@ package edu.cnm.deepdive.browseimgur.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class Image {
+public class Image implements Serializable {
+
+  private static final long serialVersionUID = 760263467264264655L;
+
+  public Image() {
+  }
+
+  public Image(String url) {
+    this.url = url;
+  }
 
   @Expose
   @SerializedName("id")

@@ -59,12 +59,11 @@ public class GallerySearchFragment extends Fragment implements
       listError.setVisibility(error ? View.VISIBLE : View.GONE);
     });
 
-
   }
 
   @Override
   public void onSelected(Gallery gallery, Image image) {
-    ImageDetailDialogFragment fragment = ImageDetailDialogFragment.newInstance();
+    ImageDetailDialogFragment fragment = ImageDetailDialogFragment.newInstance(image);
     fragment.show(getChildFragmentManager(), fragment.getClass().getName());
   }
 

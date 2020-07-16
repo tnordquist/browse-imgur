@@ -15,12 +15,13 @@ import java.util.List;
 
 public class ListViewModel extends AndroidViewModel {
 
+//  private final ImageRepository imageRepository;
   private final MutableLiveData<List<Gallery>> galleries;
-  private final MutableLiveData<Boolean> loadError;
-  private final MutableLiveData<Boolean> loading;
   private final MutableLiveData<Throwable> throwable;
   private final CompositeDisposable pending;
   private final ImgurService imgurService;
+  private final MutableLiveData<Boolean> loadError; // TODO implement if there's time
+  private final MutableLiveData<Boolean> loading; // TODO implement if there's time
 
   public ListViewModel(@NonNull Application application) {
     super(application);
@@ -31,6 +32,7 @@ public class ListViewModel extends AndroidViewModel {
     loading = new MutableLiveData<>();
     pending = new CompositeDisposable();
     loadData();
+//    imageRepository = new ImageRepository(application);
   }
 
   public LiveData<List<Gallery>> getGalleries() {
@@ -53,10 +55,9 @@ public class ListViewModel extends AndroidViewModel {
   @SuppressLint("CheckResult")
   public void loadData() {
     pending.add(
-        imgurService.getSearchResult(BuildConfig.CLIENT_ID,
-            "fish AND sharks")
+        imgurService.getSearchResult(BuildConfig.CLIENT_ID,"Fish AND Sharks")
             .subscribeOn(Schedulers.io())
-            .map((result) -> {
+            .map(result -> {
               List<Gallery> galleries = result.getData();
               galleries.removeIf((gallery) ->
                   gallery.getImages() == null || gallery.getImages().isEmpty());

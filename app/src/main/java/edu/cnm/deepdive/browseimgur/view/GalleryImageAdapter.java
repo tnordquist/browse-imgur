@@ -17,7 +17,7 @@ import java.util.List;
 public class GalleryImageAdapter extends ArrayAdapter<Image> {
 
   public GalleryImageAdapter(@NonNull Context context, List<Image> imageItemArray) {
-    super(context, R.layout.custom_gallery_search_spinner_item, imageItemArray);
+    super(context, 0, imageItemArray);
   }
 
   @NonNull
@@ -46,11 +46,15 @@ public class GalleryImageAdapter extends ArrayAdapter<Image> {
 
     Image currentItem = getItem(position);
 
-    if (currentItem != null) {
+    if (currentItem.getUrl() != null) {
       Picasso.get().load(currentItem.getUrl()).into(imageView);
-      titleView.setText(currentItem.getTitle());
-      descriptionView.setText(currentItem.getDescription());
       urlView.setText(currentItem.getUrl());
+    }
+    if (currentItem.getTitle() != null) {
+      titleView.setText(currentItem.getTitle());
+    }
+    if (currentItem.getDescription() != null) {
+      descriptionView.setText(currentItem.getDescription());
     }
 
     return convertview;

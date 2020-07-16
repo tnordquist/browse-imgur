@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import edu.cnm.deepdive.browseimgur.R;
 import edu.cnm.deepdive.browseimgur.model.Gallery;
 import edu.cnm.deepdive.browseimgur.model.Image;
+import java.util.ArrayList;
 import java.util.List;
 
 public class GalleryListAdapter extends
@@ -54,6 +55,8 @@ public class GalleryListAdapter extends
     private final Spinner imageSpinner;
 
     private Gallery gallery;
+    public List<Image> withIconList = new ArrayList<>();
+    private final Image galleryIcon = new Image("https://images.app.goo.gl/ajLDeNXUJWuerkmh9");
     private boolean handleSelection;
 
     public GalleryViewHolder(@NonNull View itemView) {
@@ -65,9 +68,12 @@ public class GalleryListAdapter extends
 
     private void bind(int position) {
       gallery = galleries.get(position);
+      withIconList.add(galleryIcon);
+      withIconList.addAll(gallery.getImages());
       title.setText(gallery.getTitle());
       description.setText(gallery.getDescription());
-      GalleryImageAdapter galleryImageAdapter = new GalleryImageAdapter(context, gallery.getImages());
+      GalleryImageAdapter galleryImageAdapter = new GalleryImageAdapter(context,
+          withIconList);
       imageSpinner.setAdapter(galleryImageAdapter);
       handleSelection = false;
       imageSpinner.setOnItemSelectedListener(this);
@@ -76,7 +82,7 @@ public class GalleryListAdapter extends
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
       if (handleSelection) {
-        onItemSelectedHelper.onSelected(gallery, gallery.getImages().get(position));
+        onItemSelectedHelper.onSelected(gallery, gallery.getImages().get(0));
       } else {
         handleSelection = true;
       }
@@ -89,6 +95,7 @@ public class GalleryListAdapter extends
   }
 
   public interface OnItemSelectedHelper {
+
     void onSelected(Gallery gallery, Image image);
   }
 

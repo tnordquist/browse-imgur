@@ -1,16 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView
   xmlns:tools="http://schemas.android.com/tools"
+  xmlns:android="http://schemas.android.com/apk/res/android"
   android:layout_width="match_parent"
   android:layout_height="match_parent"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
   tools:context=".controller.ImageDetailDialogFragment">
 
-  <!-- TODO: Update blank fragment layout -->
+<androidx.constraintlayout.widget.ConstraintLayout
+  android:layout_width="match_parent"
+  android:layout_height="wrap_content">
+
+  <ImageView
+    android:id="@+id/image_detail"
+    android:layout_width="150dp"
+    android:layout_height="100dp"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent"
+    app:layout_constraintEnd_toStartOf="@id/image_title"
+    android:layout_margin="@dimen/half_margin"
+    android:contentDescription="@string/gallery_image"/>
+
   <TextView
-    android:id="@+id/dialog_text"
+    android:id="@+id/image_title"
+    style="@style/TitleText"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_gravity="center"
-    android:text="@string/hello_blank_fragment"/>
+    app:layout_constraintStart_toEndOf="@id/image_detail"
+    app:layout_constraintTop_toTopOf="parent"
+    android:textSize="20sp"
+    android:text="@string/image_title"
+    android:textColor="@android:color/black"
+    android:layout_margin="@dimen/half_margin"/>
 
-</FrameLayout>
+  <TextView
+    android:id="@+id/image_description"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    app:layout_constraintStart_toEndOf="@id/image_detail"
+    app:layout_constraintTop_toBottomOf="@id/image_title"
+    android:textSize="20sp"
+    android:text="Description"
+    android:textColor="@android:color/black"
+    android:layout_margin="@dimen/half_margin"/>
+
+  <TextView
+    android:id="@+id/image_url"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    app:layout_constraintStart_toEndOf="@id/image_detail"
+    app:layout_constraintTop_toBottomOf="@id/image_description"
+    android:textSize="15sp"
+    android:text="Url Link"
+    android:textColor="@android:color/black"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.core.widget.NestedScrollView>
