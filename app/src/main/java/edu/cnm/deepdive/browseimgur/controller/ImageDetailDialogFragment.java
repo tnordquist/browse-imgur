@@ -2,6 +2,7 @@ package edu.cnm.deepdive.browseimgur.controller;
 
 import android.app.Dialog;
 import android.os.Bundle;
+import android.provider.ContactsContract.CommonDataKinds.StructuredName;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,6 +26,14 @@ public class ImageDetailDialogFragment extends DialogFragment {
   private ImageView imageView;
   private TextView title;
   private TextView description;
+  private TextView imageId;
+  private TextView imageUrl;
+  private TextView imageDateTime;
+  private TextView imageType;
+  private TextView imageWidth;
+  private TextView imageHeight;
+  private TextView imageViews;
+  private TextView imageBandWidth;
 
   private List<Image> images;
   private GalleryImageAdapter adapter;
@@ -54,13 +63,29 @@ public class ImageDetailDialogFragment extends DialogFragment {
     imageView = root.findViewById(R.id.image_detail);
     title = root.findViewById(R.id.image_title);
     description = root.findViewById(R.id.image_description);
+    imageId = root.findViewById(R.id.image_id);
+    imageUrl = root.findViewById(R.id.image_url);
+    imageDateTime = root.findViewById(R.id.image_datetime);
+    imageType = root.findViewById(R.id.image_type);
+    imageWidth = root.findViewById(R.id.image_width);
+    imageHeight = root.findViewById(R.id.image_height);
+    imageViews = root.findViewById(R.id.image_views);
+    imageBandWidth = root.findViewById(R.id.image_bandwidth);
+
     if (image.getUrl() != null) {
       Picasso.get().load(image.getUrl()).into(imageView);
     }
-    title.setText((image.getTitle() != null) ? image.getTitle() : "");
-    description.setText((image.getDescription() != null) ? image.getDescription() : "");
+    title.setText((image.getTitle() != null) ? image.getTitle() : "Title Not Available");
+    description.setText((image.getDescription() != null) ? image.getDescription() : "Description N/A");
+    imageId.setText((image.getImageId() != null) ? "Id: " + image.getImageId() : "Image Id N/A");
+    imageUrl.setText((image.getUrl() != null) ? image.getUrl() : "Url N/A");
+    imageDateTime.setText((image.getImageDateTime() != null) ? String.valueOf(image.getImageDateTime()) : "DateTime N/A");
+    imageType.setText((image.getType() != null) ? image.getType() : "Image Type N/A");
+    imageWidth.setText((image.getWidth() != null) ? String.valueOf(image.getWidth()) : "Image Width N/A");
+    imageHeight.setText((image.getDescription() != null) ? String.valueOf(image.getHeight()) : "Image Height N/A");
+    imageViews.setText((image.getViews() != null) ? String.valueOf(image.getViews()) : "Number of Views N/A");
+    imageBandWidth.setText((image.getBandwidth() != null) ? String.valueOf(image.getBandwidth()) : "Bandwidth N/A");
     dialog = new AlertDialog.Builder(Objects.requireNonNull(getContext()))
-        .setTitle("Gallery Image")
         .setView(root)
         .create();
     return dialog;

@@ -55,7 +55,7 @@ public class ListViewModel extends AndroidViewModel {
   @SuppressLint("CheckResult")
   public void loadData() {
     pending.add(
-        imgurService.getSearchResult(BuildConfig.CLIENT_ID,"Fish AND Sharks")
+        imgurService.getSearchResult(BuildConfig.CLIENT_ID,"cars")
             .subscribeOn(Schedulers.io())
             .map(result -> {
               List<Gallery> galleries = result.getData();

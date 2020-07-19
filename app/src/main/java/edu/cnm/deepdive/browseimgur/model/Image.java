@@ -28,7 +28,10 @@ public class Image implements Serializable {
   private String description;
 
   @SerializedName("datetime")
-  private Date imageDateTime;
+  private Long imageDateTime;
+
+  @Expose
+  private String type;
 
   @Expose
   @SerializedName("link")
@@ -36,15 +39,19 @@ public class Image implements Serializable {
 
   private boolean animated;
 
-  private int width;
+  @Expose
+  private Integer width;
 
-  private int height;
+  @Expose
+  private Integer height;
 
   private int size;
 
-  private int views;
+  @Expose
+  private Integer views;
 
-  private long bandwidth;
+  @Expose
+  private Long bandwidth;
 
   public String getImageId() {
     return imageId;
@@ -70,12 +77,20 @@ public class Image implements Serializable {
     this.description = description;
   }
 
-  public Date getImageDateTime() {
+  public Long getImageDateTime() {
     return imageDateTime;
   }
 
-  public void setImageDateTime(Date imageDateTime) {
+  public void setImageDateTime(Long imageDateTime) {
     this.imageDateTime = imageDateTime;
+  }
+
+  public String getType() {
+    return type;
+  }
+
+  public void setType(String type) {
+    this.type = type;
   }
 
   public String getUrl() {
@@ -94,19 +109,19 @@ public class Image implements Serializable {
     this.animated = animated;
   }
 
-  public int getWidth() {
+  public Integer getWidth() {
     return width;
   }
 
-  public void setWidth(int width) {
+  public void setWidth(Integer width) {
     this.width = width;
   }
 
-  public int getHeight() {
+  public Integer getHeight() {
     return height;
   }
 
-  public void setHeight(int height) {
+  public void setHeight(Integer height) {
     this.height = height;
   }
 
@@ -118,32 +133,25 @@ public class Image implements Serializable {
     this.size = size;
   }
 
-  public int getViews() {
+  public Integer getViews() {
     return views;
   }
 
-  public void setViews(int views) {
+  public void setViews(Integer views) {
     this.views = views;
   }
 
-  public long getBandwidth() {
+  public Long getBandwidth() {
     return bandwidth;
   }
 
-  public void setBandwidth(long bandwidth) {
+  public void setBandwidth(Long bandwidth) {
     this.bandwidth = bandwidth;
   }
 
   @Override
   public String toString() {
-    String alt = "Title";
-    String altDes = "Filler Description Items";
-    if (title == null) {
-      title = alt;
-    }
-    if (description == null) {
-      description = altDes;
-    }
-    return title + "" + description + "" + url;
+
+    return title + "" + description + "" + url + "" + imageId + "" + imageDateTime;
   }
 }
