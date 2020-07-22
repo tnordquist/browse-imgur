@@ -27,6 +27,7 @@ public class Image implements Serializable {
   @Expose
   private String description;
 
+  @Expose
   @SerializedName("datetime")
   private Long imageDateTime;
 
@@ -152,6 +153,6 @@ public class Image implements Serializable {
   @Override
   public String toString() {
 
-    return title + "" + description + "" + url + "" + imageId + "" + imageDateTime;
+    return title + "" + description + "" + url + "" + imageId ;
   }
 }

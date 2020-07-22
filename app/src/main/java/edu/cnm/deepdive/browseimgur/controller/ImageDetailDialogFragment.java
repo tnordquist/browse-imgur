@@ -16,6 +16,9 @@ import com.squareup.picasso.Picasso;
 import edu.cnm.deepdive.browseimgur.R;
 import edu.cnm.deepdive.browseimgur.model.Image;
 import edu.cnm.deepdive.browseimgur.view.GalleryImageAdapter;
+import java.text.Format;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
@@ -23,7 +26,6 @@ public class ImageDetailDialogFragment extends DialogFragment {
 
   private AlertDialog dialog;
   private View root;
-  private ImageView imageView;
   private TextView title;
   private TextView description;
   private TextView imageId;
@@ -60,7 +62,7 @@ public class ImageDetailDialogFragment extends DialogFragment {
   public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
     root = LayoutInflater.from(getContext())
         .inflate(R.layout.fragment_image_detail_dialog, null, false);
-    imageView = root.findViewById(R.id.image_detail);
+    ImageView imageView = root.findViewById(R.id.image_detail);
     title = root.findViewById(R.id.image_title);
     description = root.findViewById(R.id.image_description);
     imageId = root.findViewById(R.id.image_id);
@@ -79,12 +81,12 @@ public class ImageDetailDialogFragment extends DialogFragment {
     description.setText((image.getDescription() != null) ? image.getDescription() : "Description N/A");
     imageId.setText((image.getImageId() != null) ? "Id: " + image.getImageId() : "Image Id N/A");
     imageUrl.setText((image.getUrl() != null) ? image.getUrl() : "Url N/A");
-    imageDateTime.setText((image.getImageDateTime() != null) ? String.valueOf(image.getImageDateTime()) : "DateTime N/A");
+    imageDateTime.setText((image.getImageDateTime() != null) ? "Date: " + (convertTime(image.getImageDateTime())) : "DateTime N/A");
     imageType.setText((image.getType() != null) ? image.getType() : "Image Type N/A");
-    imageWidth.setText((image.getWidth() != null) ? String.valueOf(image.getWidth()) : "Image Width N/A");
-    imageHeight.setText((image.getDescription() != null) ? String.valueOf(image.getHeight()) : "Image Height N/A");
-    imageViews.setText((image.getViews() != null) ? String.valueOf(image.getViews()) : "Number of Views N/A");
-    imageBandWidth.setText((image.getBandwidth() != null) ? String.valueOf(image.getBandwidth()) : "Bandwidth N/A");
+    imageWidth.setText((image.getWidth() != null) ? "Width: " + (image.getWidth()) : "Image Width N/A");
+    imageHeight.setText((image.getDescription() != null) ? "Height: " + (image.getHeight()) : "Image Height N/A");
+    imageViews.setText((image.getViews() != null) ? "Views: " + (image.getViews()) : "Number of Views N/A");
+    imageBandWidth.setText((image.getBandwidth() != null) ? "Bandwidth: " + (image.getBandwidth()) : "Bandwidth N/A");
     dialog = new AlertDialog.Builder(Objects.requireNonNull(getContext()))
         .setView(root)
         .create();
@@ -97,4 +99,9 @@ public class ImageDetailDialogFragment extends DialogFragment {
     return null;
   }
 
+  public String convertTime(long time) {
+    Date date = new Date(time);
+    Format format = new SimpleDateFormat("yyyy MM dd HH:mm:ss");
+    return format.format(date);
+  }
 }
