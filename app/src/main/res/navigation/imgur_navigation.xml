@@ -18,9 +18,9 @@
   </fragment>
   <fragment
     android:id="@+id/detailFragment"
-    android:name="edu.cnm.deepdive.browseimgur.controller.DetailFragment"
+    android:name="edu.cnm.deepdive.browseimgur.controller.ImageDetailDialogFragment"
     android:label="fragment_detail"
-    tools:layout="@layout/fragment_detail">
+    tools:layout="@layout/fragment_image_detail_dialog">
     <action
       android:id="@+id/action_go_to_list"
       app:destination="@id/listFragment"

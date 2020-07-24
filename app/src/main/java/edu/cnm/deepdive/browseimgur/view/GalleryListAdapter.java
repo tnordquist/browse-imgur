@@ -56,8 +56,9 @@ public class GalleryListAdapter extends
 
     private Gallery gallery;
     public List<Image> withIconList = new ArrayList<>();
-    private final Image galleryIcon = new Image("https://images.app.goo.gl/ajLDeNXUJWuerkmh9");
-    private boolean handleSelection;
+    String imageUrl = "res/drawable/czech.png";
+    private final Image galleryIcon = new Image(imageUrl);
+//    private boolean handleSelection;
 
     public GalleryViewHolder(@NonNull View itemView) {
       super(itemView);
@@ -68,6 +69,7 @@ public class GalleryListAdapter extends
 
     private void bind(int position) {
       gallery = galleries.get(position);
+      withIconList.clear();
       withIconList.add(galleryIcon);
       withIconList.addAll(gallery.getImages());
       title.setText(gallery.getTitle());
@@ -75,16 +77,14 @@ public class GalleryListAdapter extends
       GalleryImageAdapter galleryImageAdapter = new GalleryImageAdapter(context,
           withIconList);
       imageSpinner.setAdapter(galleryImageAdapter);
-      handleSelection = false;
+//      handleSelection = false;
       imageSpinner.setOnItemSelectedListener(this);
     }
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-      if (handleSelection) {
-        onItemSelectedHelper.onSelected(gallery, gallery.getImages().get(0));
-      } else {
-        handleSelection = true;
+      if (position > 0) {
+        onItemSelectedHelper.onSelected(gallery, gallery.getImages().get(position-1));
       }
     }
 

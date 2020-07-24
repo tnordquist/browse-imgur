@@ -78,15 +78,22 @@ public class ImageDetailDialogFragment extends DialogFragment {
       Picasso.get().load(image.getUrl()).into(imageView);
     }
     title.setText((image.getTitle() != null) ? image.getTitle() : "Title Not Available");
-    description.setText((image.getDescription() != null) ? image.getDescription() : "Description N/A");
+    description
+        .setText((image.getDescription() != null) ? image.getDescription() : "Description N/A");
     imageId.setText((image.getImageId() != null) ? "Id: " + image.getImageId() : "Image Id N/A");
     imageUrl.setText((image.getUrl() != null) ? image.getUrl() : "Url N/A");
-    imageDateTime.setText((image.getImageDateTime() != null) ? "Date: " + (convertTime(image.getImageDateTime())) : "DateTime N/A");
+    imageDateTime.setText(
+        (image.getImageDateTime() != null) ? "Date: " + (convertTime(image.getImageDateTime()))
+            : "DateTime N/A");
     imageType.setText((image.getType() != null) ? image.getType() : "Image Type N/A");
-    imageWidth.setText((image.getWidth() != null) ? "Width: " + (image.getWidth()) : "Image Width N/A");
-    imageHeight.setText((image.getDescription() != null) ? "Height: " + (image.getHeight()) : "Image Height N/A");
-    imageViews.setText((image.getViews() != null) ? "Views: " + (image.getViews()) : "Number of Views N/A");
-    imageBandWidth.setText((image.getBandwidth() != null) ? "Bandwidth: " + (image.getBandwidth()) : "Bandwidth N/A");
+    imageWidth
+        .setText((image.getWidth() != null) ? "Width: " + (image.getWidth()) : "Image Width N/A");
+    imageHeight.setText(
+        (image.getDescription() != null) ? "Height: " + (image.getHeight()) : "Image Height N/A");
+    imageViews.setText(
+        (image.getViews() != null) ? "Views: " + (image.getViews()) : "Number of Views N/A");
+    imageBandWidth.setText(
+        (image.getBandwidth() != null) ? "Bandwidth: " + (image.getBandwidth()) : "Bandwidth N/A");
     dialog = new AlertDialog.Builder(Objects.requireNonNull(getContext()))
         .setView(root)
         .create();
@@ -99,9 +106,11 @@ public class ImageDetailDialogFragment extends DialogFragment {
     return null;
   }
 
-  public String convertTime(long time) {
-    Date date = new Date(time);
-    Format format = new SimpleDateFormat("yyyy MM dd HH:mm:ss");
-    return format.format(date);
+  private String convertTime(long epoch) {
+//    String date = new java.text.SimpleDateFormat("MM/dd/yyyy HH:mm:ss z")
+//        .format(new java.util.Date(epoch * 1000));
+    return new java.text.SimpleDateFormat("MMMM-dd-yyyy hh:mm aaa z")
+        .format(new java.util.Date(epoch * 1000));
+//    return date;
   }
 }
