@@ -11,11 +11,14 @@
   <ImageView
     android:id="@+id/image_gallery_search"
     android:layout_width="150dp"
-    android:layout_height="100dp"
+    android:layout_height="wrap_content"
+    android:scaleType="centerInside"
+    android:adjustViewBounds="true"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toTopOf="parent"
     app:layout_constraintEnd_toStartOf="@id/title"
     android:layout_margin="@dimen/half_margin"
+    android:src="@drawable/car"
     android:contentDescription="@string/gallery_image"/>
 
   <TextView

@@ -24,142 +24,128 @@
       app:layout_constraintTop_toTopOf="parent"
       />
 
+
     <ImageView
       android:id="@+id/image_detail"
       android:layout_width="match_parent"
-      android:layout_height="475dp"
+      android:layout_height="wrap_content"
       android:layout_margin="@dimen/half_margin"
+      android:padding="@dimen/half_margin"
+      android:adjustViewBounds="true"
       android:contentDescription="@string/gallery_image"
+      android:scaleType="centerInside"
+      android:src="@drawable/car"
       app:layout_constraintBottom_toTopOf="@id/image_description"
-      app:layout_constraintTop_toBottomOf="@id/image_title"
-      app:layout_constraintVertical_chainStyle="spread_inside"
-      tools:layout_editor_absoluteX="4dp"/>
-
-
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toBottomOf="@id/image_title"/>
 
     <TextView
       android:id="@+id/image_description"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
-      android:layout_marginTop="@dimen/half_margin"
-      android:layout_marginBottom="@dimen/half_margin"
       android:text="@string/image_detail_description"
-      android:textColor="@android:color/black"
-      android:textSize="15sp"
-      app:layout_constraintBottom_toTopOf="@id/image_url"
-      app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintStart_toStartOf="parent"
+      style="@style/Description"
+      android:layout_margin="@dimen/half_margin"
       app:layout_constraintTop_toBottomOf="@id/image_detail"
+      app:layout_constraintBottom_toTopOf="@id/detail_linear_layout"
+      app:layout_constraintStart_toStartOf="parent"
       />
 
-    <TextView
-      android:id="@+id/image_id"
-      android:layout_width="wrap_content"
+    <LinearLayout
+      android:id="@+id/detail_linear_layout"
+      android:layout_width="match_parent"
       android:layout_height="wrap_content"
-      android:text="@string/image_detail_id"
-      android:layout_marginTop="@dimen/half_margin"
-      android:layout_marginBottom="@dimen/half_margin"
-      android:textColor="@android:color/black"
-      android:textSize="15sp"
-      app:layout_constraintEnd_toStartOf="@id/image_url"
-      app:layout_constraintHorizontal_chainStyle="spread_inside"
-      app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toBottomOf="@id/image_description"/>
+      android:layout_margin="@dimen/half_margin"
+      android:padding="15dp"
+      app:layout_constraintTop_toBottomOf="@id/image_description"
+      android:background="@drawable/border"
+      android:orientation="vertical">
 
-    <TextView
-      android:id="@+id/image_url"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:layout_marginTop="@dimen/half_margin"
-      android:layout_marginBottom="@dimen/half_margin"
-      android:text="@string/image_detail_url_link"
-      android:textColor="@android:color/black"
-      android:textSize="15sp"
-      app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintStart_toEndOf="@id/image_id"
-      app:layout_constraintTop_toBottomOf="@id/image_description"/>
+      <TextView
+        android:id="@+id/image_id"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/image_detail_id"
+        style="@style/Image_Attribute"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/image_description"
+        app:layout_constraintBottom_toTopOf="@id/image_type"
+        />
+
+      <TextView
+        android:id="@+id/image_type"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/image_type"
+        style="@style/Image_Attribute"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/image_id"
+        app:layout_constraintBottom_toTopOf="@id/image_url"
+        />
+
+      <TextView
+        android:id="@+id/image_url"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/Image_Attribute"
+        android:text="@string/image_detail_url_link"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/image_type"
+        app:layout_constraintBottom_toTopOf="@id/image_datetime"/>
 
 
-    <TextView
-      android:id="@+id/image_datetime"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:layout_marginTop="@dimen/half_margin"
-      android:layout_marginBottom="@dimen/half_margin"
-      android:text="@string/image_detail_date_amp_time"
-      android:textColor="@android:color/black"
-      android:textSize="15sp"
-      app:layout_constraintEnd_toStartOf="@id/image_type"
-      app:layout_constraintHorizontal_chainStyle="spread_inside"
-      app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toBottomOf="@id/image_id"/>
+      <TextView
+        android:id="@+id/image_datetime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/Image_Attribute"
+        android:text="@string/image_detail_date_amp_time"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/image_url"
+        app:layout_constraintBottom_toTopOf="@id/image_width"/>
 
-    <TextView
-      android:id="@+id/image_type"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:layout_marginTop="@dimen/half_margin"
-      android:layout_marginBottom="@dimen/half_margin"
-      android:text="@string/image_type"
-      android:textColor="@android:color/black"
-      android:textSize="15sp"
-      app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintStart_toEndOf="@id/image_datetime"
-      app:layout_constraintTop_toBottomOf="@id/image_url"/>
+      <TextView
+        android:id="@+id/image_width"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/Image_Attribute"
+        android:text="@string/detail_image_width"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/image_datetime"
+        app:layout_constraintBottom_toTopOf="@id/image_height"/>
 
-    <TextView
-      android:id="@+id/image_width"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:layout_marginTop="@dimen/half_margin"
-      android:layout_marginBottom="@dimen/half_margin"
-      android:text="@string/detail_image_width"
-      android:textColor="@android:color/black"
-      android:textSize="15sp"
-      app:layout_constraintEnd_toStartOf="@id/image_height"
-      app:layout_constraintHorizontal_chainStyle="spread_inside"
-      app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toBottomOf="@id/image_datetime"/>
+      <TextView
+        android:id="@+id/image_height"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/Image_Attribute"
+        android:text="@string/detail_image_height"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/image_width"
+        app:layout_constraintBottom_toTopOf="@id/image_views"/>
 
-    <TextView
-      android:id="@+id/image_height"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:layout_marginTop="@dimen/half_margin"
-      android:layout_marginBottom="@dimen/half_margin"
-      android:text="@string/detail_image_height"
-      android:textColor="@android:color/black"
-      android:textSize="15sp"
-      app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintStart_toEndOf="@id/image_width"
-      app:layout_constraintTop_toBottomOf="@id/image_type"/>
 
-    <TextView
-      android:id="@+id/image_views"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:layout_marginTop="@dimen/half_margin"
-      android:layout_marginBottom="@dimen/half_margin"
-      android:text="@string/detail_image_views"
-      android:textColor="@android:color/black"
-      android:textSize="15sp"
-      app:layout_constraintEnd_toStartOf="@id/image_bandwidth"
-      app:layout_constraintHorizontal_chainStyle="spread_inside"
-      app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toBottomOf="@id/image_width"/>
+      <TextView
+        android:id="@+id/image_views"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/Image_Attribute"
+        android:text="@string/detail_image_views"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/image_height"
+        app:layout_constraintBottom_toTopOf="@id/image_bandwidth"/>
 
-    <TextView
-      android:id="@+id/image_bandwidth"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:layout_marginTop="@dimen/half_margin"
-      android:layout_marginBottom="@dimen/half_margin"
-      android:text="@string/detail_image_bandwidth"
-      android:textColor="@android:color/black"
-      android:textSize="15sp"
-      app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintStart_toEndOf="@id/image_views"
-      app:layout_constraintTop_toBottomOf="@id/image_height"/>
+      <TextView
+        android:id="@+id/image_bandwidth"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/Image_Attribute"
+        android:layout_marginBottom="16dp"
+        android:text="@string/detail_image_bandwidth"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/image_views"
+        />
+    </LinearLayout>
 
   </androidx.constraintlayout.widget.ConstraintLayout>
 

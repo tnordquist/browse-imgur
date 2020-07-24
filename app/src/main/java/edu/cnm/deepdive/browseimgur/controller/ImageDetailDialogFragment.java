@@ -81,11 +81,11 @@ public class ImageDetailDialogFragment extends DialogFragment {
     description
         .setText((image.getDescription() != null) ? image.getDescription() : "Description N/A");
     imageId.setText((image.getImageId() != null) ? "Id: " + image.getImageId() : "Image Id N/A");
-    imageUrl.setText((image.getUrl() != null) ? image.getUrl() : "Url N/A");
+    imageUrl.setText((image.getUrl() != null) ? "Image Url: " + image.getUrl() : "Url N/A");
     imageDateTime.setText(
-        (image.getImageDateTime() != null) ? "Date: " + (convertTime(image.getImageDateTime()))
+        (image.getImageDateTime() != null) ? "Submitted: " + (convertTime(image.getImageDateTime()))
             : "DateTime N/A");
-    imageType.setText((image.getType() != null) ? image.getType() : "Image Type N/A");
+    imageType.setText((image.getType() != null) ? "Type of Image: " + image.getType() : "Image Type N/A");
     imageWidth
         .setText((image.getWidth() != null) ? "Width: " + (image.getWidth()) : "Image Width N/A");
     imageHeight.setText(
@@ -96,6 +96,7 @@ public class ImageDetailDialogFragment extends DialogFragment {
         (image.getBandwidth() != null) ? "Bandwidth: " + (image.getBandwidth()) : "Bandwidth N/A");
     dialog = new AlertDialog.Builder(Objects.requireNonNull(getContext()))
         .setView(root)
+        .setPositiveButton(R.string.return_to_list_of_images, (dlg, which) -> {})
         .create();
     return dialog;
   }
@@ -106,11 +107,15 @@ public class ImageDetailDialogFragment extends DialogFragment {
     return null;
   }
 
+  /**
+   * Source: https://docs.oracle.com/javase/7/docs/api/java/text/SimpleDateFormat.html
+   * @param epoch
+   * @return String epoch form converted to date and time
+   */
   private String convertTime(long epoch) {
 //    String date = new java.text.SimpleDateFormat("MM/dd/yyyy HH:mm:ss z")
 //        .format(new java.util.Date(epoch * 1000));
-    return new java.text.SimpleDateFormat("MMMM-dd-yyyy hh:mm aaa z")
+    return new java.text.SimpleDateFormat("MMMM-dd-yyyy hh:mm aa z")
         .format(new java.util.Date(epoch * 1000));
-//    return date;
   }
 }
