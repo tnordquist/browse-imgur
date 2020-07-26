@@ -15,7 +15,7 @@ import java.util.List;
 
 public class ListViewModel extends AndroidViewModel {
 
-//  private final ImageRepository imageRepository;
+  //  private final ImageRepository imageRepository;
   private final MutableLiveData<List<Gallery>> galleries;
   private final MutableLiveData<Throwable> throwable;
   private final CompositeDisposable pending;
@@ -55,7 +55,7 @@ public class ListViewModel extends AndroidViewModel {
   @SuppressLint("CheckResult")
   public void loadData() {
     pending.add(
-        imgurService.getSearchResult(BuildConfig.CLIENT_ID,"cars")
+        imgurService.getSearchResult(BuildConfig.CLIENT_ID, "insects")
             .subscribeOn(Schedulers.io())
             .map(result -> {
               List<Gallery> galleries = result.getData();

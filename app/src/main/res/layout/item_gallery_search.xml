@@ -9,9 +9,10 @@
 
   <Spinner
     android:id="@+id/gallery_search_spinner"
-    android:layout_width="wrap_content"
+    android:layout_width="0dp"
     android:layout_height="wrap_content"
     android:spinnerMode="dialog"
+    app:layout_constraintHorizontal_weight="1"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toTopOf="parent"
     app:layout_constraintEnd_toStartOf="@id/gallery_title"
@@ -19,10 +20,12 @@
 
   <TextView
     android:id="@+id/gallery_title"
-    android:layout_width="wrap_content"
+    android:layout_width="0dp"
     android:layout_height="wrap_content"
     app:layout_constraintStart_toEndOf="@id/gallery_search_spinner"
     app:layout_constraintTop_toTopOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintHorizontal_weight="3"
     android:text="@string/image_title"
     android:textColor="@android:color/black"
     style="@style/TitleText"
@@ -30,9 +33,10 @@
 
   <TextView
     android:id="@+id/gallery_description"
-    android:layout_width="wrap_content"
+    android:layout_width="0dp"
     android:layout_height="wrap_content"
-    app:layout_constraintStart_toEndOf="@id/gallery_search_spinner"
+    app:layout_constraintStart_toStartOf="@id/gallery_title"
+    app:layout_constraintEnd_toEndOf="@id/gallery_title"
     app:layout_constraintTop_toBottomOf="@id/gallery_title"
     android:text="@string/description"
     style="@style/Description"
