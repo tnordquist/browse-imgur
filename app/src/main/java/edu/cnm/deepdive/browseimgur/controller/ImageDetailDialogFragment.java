@@ -63,7 +63,7 @@ public class ImageDetailDialogFragment extends DialogFragment {
     root = LayoutInflater.from(getContext())
         .inflate(R.layout.fragment_image_detail_dialog, null, false);
     ImageView imageView = root.findViewById(R.id.image_detail);
-    title = root.findViewById(R.id.image_title);
+//    title = root.findViewById(R.id.image_title);
     description = root.findViewById(R.id.image_description);
     imageId = root.findViewById(R.id.image_id);
     imageUrl = root.findViewById(R.id.image_url);
@@ -77,7 +77,7 @@ public class ImageDetailDialogFragment extends DialogFragment {
     if (image.getUrl() != null) {
       Picasso.get().load(image.getUrl()).into(imageView);
     }
-    title.setText((image.getTitle() != null) ? image.getTitle() : "Title Not Available");
+//    title.setText((image.getTitle() != null) ? image.getTitle() : "Title Not Available");
     description
         .setText((image.getDescription() != null) ? image.getDescription() : "Description N/A");
     imageId.setText((image.getImageId() != null) ? "Id: " + image.getImageId() : "Image Id N/A");
@@ -95,8 +95,9 @@ public class ImageDetailDialogFragment extends DialogFragment {
     imageBandWidth.setText(
         (image.getBandwidth() != null) ? "Bandwidth: " + (image.getBandwidth()) : "Bandwidth N/A");
     dialog = new AlertDialog.Builder(Objects.requireNonNull(getContext()))
+        .setTitle((image.getTitle() != null) ? image.getTitle() : "Untitled")
         .setView(root)
-        .setPositiveButton(R.string.return_to_list_of_images, (dlg, which) -> {})
+        .setPositiveButton(R.string.close_image_detail_dialog, (dlg, which) -> {})
         .create();
     return dialog;
   }

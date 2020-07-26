@@ -40,9 +40,9 @@ public class GalleryImageAdapter extends ArrayAdapter<Image> {
       );
     }
     ImageView imageView = convertview.findViewById(R.id.image_gallery_search);
-    TextView titleView = convertview.findViewById(R.id.title);
-    TextView descriptionView = convertview.findViewById(R.id.description);
-    TextView urlView = convertview.findViewById(R.id.url);
+    TextView titleView = convertview.findViewById(R.id.custom_title);
+    TextView descriptionView = convertview.findViewById(R.id.custom_description);
+//    TextView urlView = convertview.findViewById(R.id.url);
 
     Image currentItem = getItem(position);
 
@@ -53,13 +53,21 @@ public class GalleryImageAdapter extends ArrayAdapter<Image> {
         Picasso.get().load(currentItem.getUrl()).into(imageView);
       }
 
-      urlView.setText(currentItem.getUrl());
-    }
+//      urlView.setText(currentItem.getUrl());
+//    } else {
+//      imageView.setImageResource(R.drawable.gallery);
+//      urlView.setText("No Url");
+   }
     if (currentItem.getTitle() != null) {
       titleView.setText(currentItem.getTitle());
+    } else {
+      titleView.setText("Untitled");
+
     }
     if (currentItem.getDescription() != null) {
       descriptionView.setText(currentItem.getDescription());
+    } else {
+      descriptionView.setText("No description");
     }
 
     return convertview;

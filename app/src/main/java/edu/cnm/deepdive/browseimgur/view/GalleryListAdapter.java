@@ -56,14 +56,14 @@ public class GalleryListAdapter extends
 
     private Gallery gallery;
     public List<Image> withIconList = new ArrayList<>();
-    String imageUrl = "res/drawable/czech.png";
+    String imageUrl = "" + R.drawable.gallery;
     private final Image galleryIcon = new Image(imageUrl);
-//    private boolean handleSelection;
+    private boolean handleSelection;
 
     public GalleryViewHolder(@NonNull View itemView) {
       super(itemView);
-      title = itemView.findViewById(R.id.title);
-      description = itemView.findViewById(R.id.description);
+      title = itemView.findViewById(R.id.gallery_title);
+      description = itemView.findViewById(R.id.gallery_description);
       imageSpinner = itemView.findViewById(R.id.gallery_search_spinner);
     }
 

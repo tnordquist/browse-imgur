@@ -16,5 +16,5 @@
   <string name="detail_image_height">Image Height</string>
   <string name="detail_image_views">Views</string>
   <string name="detail_image_bandwidth">Bandwidth</string>
-  <string name="return_to_list_of_images">Return</string>
+  <string name="close_image_detail_dialog">Close</string>
 </resources>
