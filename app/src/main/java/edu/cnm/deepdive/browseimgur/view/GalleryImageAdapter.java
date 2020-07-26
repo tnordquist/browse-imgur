@@ -24,9 +24,8 @@ public class GalleryImageAdapter extends ArrayAdapter<Image> {
   @Override
   public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
     return (convertView != null && convertView.findViewById(R.id.spinner_placeholder) != null)
-        ? convertView
-        : LayoutInflater.from(getContext()).inflate(
-            R.layout.item_gallery_image_placeholder, parent, false);
+        ? convertView : LayoutInflater.from(getContext()).inflate(
+        R.layout.item_gallery_image_placeholder, parent, false);
   }
 
   @Nullable
@@ -35,9 +34,8 @@ public class GalleryImageAdapter extends ArrayAdapter<Image> {
       @NonNull ViewGroup parent) {
     if (position == 0) {
       return (convertView != null && convertView.findViewById(R.id.spinner_unselectable) != null)
-          ? convertView
-          : LayoutInflater.from(getContext()).inflate(
-              R.layout.item_gallery_image_unselectable, parent, false);
+           ? convertView : LayoutInflater.from(getContext()).inflate(
+           R.layout.item_gallery_image_unselectable, parent, false);
     } else {
       return initView(position, convertView, parent);
     }
@@ -52,7 +50,6 @@ public class GalleryImageAdapter extends ArrayAdapter<Image> {
     ImageView imageView = convertview.findViewById(R.id.image_gallery_search);
     TextView titleView = convertview.findViewById(R.id.custom_title);
     TextView descriptionView = convertview.findViewById(R.id.custom_description);
-//    TextView urlView = convertview.findViewById(R.id.url);
 
     Image currentItem = getItem(position);
 
@@ -62,12 +59,7 @@ public class GalleryImageAdapter extends ArrayAdapter<Image> {
       } else {
         Picasso.get().load(currentItem.getUrl()).into(imageView);
       }
-
-//      urlView.setText(currentItem.getUrl());
-//    } else {
-//      imageView.setImageResource(R.drawable.gallery);
-//      urlView.setText("No Url");
-   }
+    }
     if (currentItem.getTitle() != null) {
       titleView.setText(currentItem.getTitle());
     } else {
