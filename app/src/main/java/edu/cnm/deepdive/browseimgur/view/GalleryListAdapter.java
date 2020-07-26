@@ -84,7 +84,8 @@ public class GalleryListAdapter extends
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
       if (position > 0) {
-        onItemSelectedHelper.onSelected(gallery, gallery.getImages().get(position-1));
+        onItemSelectedHelper.onSelected(gallery, gallery.getImages().get(position - 1));
+        parent.setSelection(0);
       }
     }
 

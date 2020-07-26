@@ -23,20 +23,30 @@ public class GalleryImageAdapter extends ArrayAdapter<Image> {
   @NonNull
   @Override
   public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-    return initView(position, convertView, parent);
+    return (convertView != null && convertView.findViewById(R.id.spinner_placeholder) != null)
+        ? convertView
+        : LayoutInflater.from(getContext()).inflate(
+            R.layout.item_gallery_image_placeholder, parent, false);
   }
 
   @Nullable
   @Override
   public View getDropDownView(int position, @Nullable View convertView,
       @NonNull ViewGroup parent) {
-    return initView(position, convertView, parent);
+    if (position == 0) {
+      return (convertView != null && convertView.findViewById(R.id.spinner_unselectable) != null)
+          ? convertView
+          : LayoutInflater.from(getContext()).inflate(
+              R.layout.item_gallery_image_unselectable, parent, false);
+    } else {
+      return initView(position, convertView, parent);
+    }
   }
 
   private View initView(int position, View convertview, ViewGroup parent) {
-    if (convertview == null) {
+    if (convertview == null || convertview.findViewById(R.id.modal_image_spinner) == null) {
       convertview = LayoutInflater.from(getContext()).inflate(
-          R.layout.custom_gallery_search_spinner_item, parent, false
+          R.layout.item_gallery_image, parent, false
       );
     }
     ImageView imageView = convertview.findViewById(R.id.image_gallery_search);
