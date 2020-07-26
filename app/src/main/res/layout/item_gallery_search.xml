@@ -28,8 +28,7 @@
     app:layout_constraintHorizontal_weight="3"
     android:text="@string/image_title"
     android:textColor="@android:color/black"
-    style="@style/TitleText"
-    />
+    style="@style/TitleText"/>
 
   <TextView
     android:id="@+id/gallery_description"

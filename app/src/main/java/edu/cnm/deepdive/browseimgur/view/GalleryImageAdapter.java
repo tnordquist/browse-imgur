@@ -34,8 +34,8 @@ public class GalleryImageAdapter extends ArrayAdapter<Image> {
       @NonNull ViewGroup parent) {
     if (position == 0) {
       return (convertView != null && convertView.findViewById(R.id.spinner_unselectable) != null)
-          ? convertView : LayoutInflater.from(getContext()).inflate(
-          R.layout.item_gallery_image_unselectable, parent, false);
+           ? convertView : LayoutInflater.from(getContext()).inflate(
+           R.layout.item_gallery_image_unselectable, parent, false);
     } else {
       return initView(position, convertView, parent);
     }
